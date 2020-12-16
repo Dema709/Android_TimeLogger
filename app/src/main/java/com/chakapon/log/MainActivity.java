@@ -1,35 +1,29 @@
 package com.chakapon.log;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.time.Instant;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     final String LOG_TAG = "log";
+    final String FILE_DIR = "/Android/ChakaTimeLogger/";
     TextView textView;
     EditText editText;
 
@@ -113,7 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeInFile(String filename, String action){
         try {
-            String pathname=Environment.getExternalStorageDirectory().toString()+"/Android/LogVEGA/"+filename;
+            File dir = new File(Environment.getExternalStorageDirectory().toString()+FILE_DIR);
+            dir.mkdirs();
+
+            String pathname=Environment.getExternalStorageDirectory().toString()+FILE_DIR+filename;
             File f = new File(pathname);
             FileWriter fw;
             if (f.exists()){
@@ -134,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void readFile(String filename){
         try {
-            String pathname=Environment.getExternalStorageDirectory().toString()+"/Android/LogVEGA/"+filename;
+            String pathname=Environment.getExternalStorageDirectory().toString()+FILE_DIR+filename;
             File f = new File(pathname);
             FileInputStream inputStream = new FileInputStream(f);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
